@@ -1,10 +1,20 @@
 {
-  "name": "next-pages",
+  "name": "@treeee/next-pages-template",
   "version": "0.1.0",
   "private": true,
+  "source": "src/main.ts",
+  "module": "dist/main.js",
+  "types": "dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:lib": "bunx run-s build:clean build:modules build:css",
+    "build:clean": "rm -rf dist",
+    "build:modules": "parcel build --no-source-maps",
+    "build:css": "npx tailwindcss -o dist/index.css --minify",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,6 +24,8 @@
     "next": "14.2.5"
   },
   "devDependencies": {
+    "@parcel/packager-ts": "^2.12.0",
+    "@parcel/transformer-typescript-types": "^2.12.0",
     "@tailwindcss/typography": "^0.5.14",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -21,6 +33,7 @@
     "daisyui": "^4.12.10",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "parcel": "^2.12.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
