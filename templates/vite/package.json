@@ -20,6 +20,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@treeee/components": "^0.0.0",
+    "classnames": "^2.5.1",
+    "daisy": "^0.2.0",
+    "dayjs": "^1.11.12",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
