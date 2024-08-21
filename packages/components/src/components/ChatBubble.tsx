@@ -2,33 +2,11 @@ import classNames from 'classnames';
 import { FC, ReactNode } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import styled from 'styled-components';
 
 import { ChatMessage, ChatMessageType } from './types';
 
-const StyledMarkdown = styled(Markdown)`
-  ol {
-    list-style: decimal;
-  }
-  ul {
-    list-style: disc;
-  }
-  img {
-    margin: 0;
-  }
-`;
-
 export interface ChatBubbleProps {
   className?: string;
-  bubbleClassName?: string;
-  bubbleColor?:
-    | 'chat-bubble-primary'
-    | 'chat-bubble-secondary'
-    | 'chat-bubble-accent'
-    | 'chat-bubble-info'
-    | 'chat-bubble-success'
-    | 'chat-bubble-warning'
-    | 'chat-bubble-error';
   placement?: 'start' | 'end';
   avatar?: string;
   header?: ReactNode;
@@ -46,13 +24,17 @@ const ChatBubbleContentRenderer: FC<{ message: ChatMessageType }> = ({
 
     case 'markdown':
       return (
-        <StyledMarkdown remarkPlugins={[remarkGfm]}>
+        <Markdown className="" remarkPlugins={[remarkGfm]}>
           {message.content}
-        </StyledMarkdown>
+        </Markdown>
       );
 
     case 'image':
-      return <img className="rounded-lg m-0" src={message.content} />;
+      return <img className="rounded-lg m-0" src={message.url} />;
+
+    case 'file':
+      // TODO render file icon based on mimeType
+      return <a href={message.url}>{message.name || message.url}</a>;
 
     default:
       return null;
@@ -79,8 +61,6 @@ const ChatBubbleContent: FC<{ message?: ChatMessage }> = ({ message }) => {
 
 export const ChatBubble: FC<ChatBubbleProps> = ({
   className,
-  bubbleClassName,
-  bubbleColor,
   placement = 'start',
   avatar,
   header,
@@ -112,12 +92,7 @@ export const ChatBubble: FC<ChatBubbleProps> = ({
       )}
       {avatar && !isImageAvatar && (
         <div className="chat-image avatar placeholder">
-          <div
-            className={classNames(
-              'w-10 rounded-full',
-              bubbleColor || 'bg-neutral text-neutral-content'
-            )}
-          >
+          <div className="w-10 rounded-full border">
             <span className="text-xl">{avatar}</span>
           </div>
         </div>
@@ -129,9 +104,8 @@ export const ChatBubble: FC<ChatBubbleProps> = ({
       {/* message content */}
       <div
         className={classNames(
-          'chat-bubble [&::before]:hidden min-h-0',
-          bubbleColor,
-          bubbleClassName
+          'chat-bubble [&::before]:hidden min-h-0 text-base-content',
+          placement === 'start' ? 'bg-transparent px-0' : 'bg-base-200'
         )}
       >
         {message && <ChatBubbleContent message={message} />}

@@ -10,12 +10,20 @@ export interface ChatMesageMarkdown {
 
 export interface ChatMessageImage {
   type: 'image';
-  content: string;
+  url: string;
+}
+
+export interface ChatMessageFile {
+  type: 'file';
+  url: string;
+  name?: string;
+  mimeType?: string;
 }
 
 export type ChatMessageType =
   | ChatMessageText
   | ChatMesageMarkdown
-  | ChatMessageImage;
+  | ChatMessageImage
+  | ChatMessageFile;
 
 export type ChatMessage = string | ChatMessageType | ChatMessageType[];
