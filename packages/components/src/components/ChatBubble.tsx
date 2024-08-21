@@ -34,7 +34,13 @@ const ChatBubbleContentRenderer: FC<{ message: ChatMessageType }> = ({
 
     case 'file':
       // TODO render file icon based on mimeType
-      return <a href={message.url}>{message.name || message.url}</a>;
+      return (
+        <a className="no-underline" target="_blank" href={message.url}>
+          <div className="alert justify-start px-4 py-2">
+            📄 {message.name || message.url}
+          </div>
+        </a>
+      );
 
     default:
       return null;
@@ -54,9 +60,13 @@ const ChatBubbleContent: FC<{ message?: ChatMessage }> = ({ message }) => {
     return <ChatBubbleContentRenderer message={message} />;
   }
 
-  return message.map((m, i) => (
-    <ChatBubbleContentRenderer key={i} message={m} />
-  ));
+  return (
+    <div className="flex flex-col gap-2">
+      {message.map((m, i) => (
+        <ChatBubbleContentRenderer key={i} message={m} />
+      ))}
+    </div>
+  );
 };
 
 export const ChatBubble: FC<ChatBubbleProps> = ({

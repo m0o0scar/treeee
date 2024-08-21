@@ -43,6 +43,8 @@ export const ChatBubblesDemo = () => {
         message="What other content do you support?"
         placement="end"
       />
+
+      {/* chat bubble with markdown content */}
       <ChatBubble
         message={{
           type: 'markdown',
@@ -59,7 +61,10 @@ You can also put markdown here.
 * Here`,
         }}
       />
+
       <ChatBubble message="Cool!" placement="end" />
+
+      {/* chat bubble with mixed text and image */}
       <ChatBubble
         message={[
           {
@@ -67,11 +72,17 @@ You can also put markdown here.
             content: 'You can also mix text and image content together',
           },
           {
+            type: 'file',
+            name: 'This is a file',
+            url: 'https://google.com',
+          },
+          {
             type: 'image',
             url: 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp',
           },
         ]}
       />
+
       <ChatBubble>
         <div>Or whatever content you like</div>
         <div className="flex flex-row gap-2">
